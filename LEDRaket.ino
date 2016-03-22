@@ -1,4 +1,6 @@
 
+// LEDRaketen, Av Anton Dalsmo och Henrik Horlin
+
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
   #include <avr/power.h>
@@ -8,35 +10,47 @@
 #define PIN            4
 
 // How many NeoPixels are attached to the Arduino?
-#define NUMPIXELS      8
+#define NUMPIXELS      9
+
+
 
 // When we setup the NeoPixel library, we tell it how many pixels, and which pin to use to send signals.
 // Note that for older NeoPixel strips you might need to change the third parameter--see the strandtest
 // example for more information on possible values.
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
+int raket_possiotion;
+
+
 int delayval = 500; // delay for half a second
+
+
+int myColors[][3] = {{100,50,50}, 
+                      {50,25,25}, 
+                      {30,15,25}, 
+                      {10,10,10},
+                      {0,5,5}};
 
 void setup() {
   pixels.begin(); // This initializes the NeoPixel library.
+  raket_possiotion = 0;
 }
 
 void loop() {
-
-  
-  // For a set of NeoPixels the first NeoPixel is 0, second is 1, all the way up to the count of pixels minus one.
-  for(int i=0;i<NUMPIXELS;i++){
-
-    // pixels.Color takes RGB values, from 0,0,0 up to 255,255,255
-    pixels.setPixelColor(i, pixels.Color(0,50,0)); // Moderately bright green color.
-    for (int j=0;j<NUMPIXELS;j++){
-      if (j!=i){
-        pixels.setPixelColor(j, pixels.Color(0,0,0));
-      }
-    }
-    pixels.show(); // This sends the updated pixel color to the hardware.
-
-    delay(delayval); // Delay for a period of time (in milliseconds).
-
+  int temp;
+  for(int i=0; i<5;i++){ // lys upp raketen
+    temp = raket_possiotion-i;
+    if(temp>=0 && temp<NUMPIXELS){ // kollar att temp ar en lysdiod
+      pixels.setPixelColor(temp, pixels.Color(myColors[i][0],myColors[i][1],myColors[i][2]));
+    } 
+  }
+  temp--;
+  if(temp>=0 && temp<NUMPIXELS){ // kollar att temp ar en lysdiod, en lysdiod efter raketen
+      pixels.setPixelColor(temp,pixels.Color(0,0,0)); // slck sista lysdioden
+  } 
+  pixels.show();
+  delay(delayval);
+  if (raket_possiotion<20){
+    raket_possiotion++;
   }
 }
