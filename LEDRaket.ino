@@ -1,4 +1,4 @@
-// LEDRaketen, Av Anton Dalsmo och Henrik Horlin
+// LEDRaketen, Av Anton Dalsmo
 
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
