@@ -84,7 +84,7 @@ void loop() {
   // kolla om vi skall bli triggade
   if (Serial.available() >0){
     byte inData[12];
-    Serial.readBytes(inData,12);
+    //Serial.readBytes(inData,12);
     Serial.flush();
     raket_laddad = true;
   }
